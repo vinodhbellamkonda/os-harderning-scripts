@@ -400,20 +400,6 @@ else
     fail=$((fail + 1))
 fi
 
-# 5.2.6 Ensure SSH IgnoreRhosts is enabled
-echo
-echo -e "${RED}5.2.6${NC} Ensure SSH IgnoreRhosts is enabled"
-egrep -q "^(\s*)IgnoreRhosts\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed -ri "s/^(\s*)IgnoreRhosts\s+\S+(\s*#.*)?\s*$/\1IgnoreRhosts yes\2/" /etc/ssh/sshd_config || echo "IgnoreRhosts yes" >> /etc/ssh/sshd_config
-policystatus=$?
-if [[ "$policystatus" -eq 0 ]]; then
-    echo -e "${GREEN}Remediated:${NC} Ensure SSH IgnoreRhosts is enabled"
-    success=$((success + 1))
-else
-    echo -e "${RED}UnableToRemediate:${NC} Ensure SSH IgnoreRhosts is enabled"
-    fail=$((fail + 1))
-fi
-
-
 
 # 5.2.9 Ensure SSH PermitEmptyPasswords is disabled
 echo
