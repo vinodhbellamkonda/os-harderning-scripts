@@ -242,6 +242,28 @@ else
     fail=$((fail + 1))
 fi
 
+#Ensure Reverse Path Filtering is enabled
+echo
+echo -e "${RED}3.2.7${NC} Ensure Reverse Path Filtering is enabled"
+egrep -q "^(\s*)net.ipv4.conf.all.rp_filter\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.all.rp_filter\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.all.rp_filter = 1\2/" /etc/sysctl.conf || echo "net.ipv4.conf.all.rp_filter = 1" >> /etc/sysctl.conf
+egrep -q "^(\s*)net.ipv4.conf.default.rp_filter\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.default.rp_filter\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.default.rp_filter = 1\2/" /etc/sysctl.conf || echo "net.ipv4.conf.default.rp_filter = 1" >> /etc/sysctl.conf
+echo -e "${GREEN}Remediated:${NC} Ensure Reverse Path Filtering is enabled"
+success=$((success + 1))
+
+#Ensure TCP SYN Cookies is enabled
+echo
+echo -e "${RED}3.2.8${NC} Ensure TCP SYN Cookies is enabled"
+egrep -q "^(\s*)net.ipv4.tcp_syncookies\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.tcp_syncookies\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.tcp_syncookies = 1\2/" /etc/sysctl.conf || echo "net.ipv4.tcp_syncookies = 1" >> /etc/sysctl.conf
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+    echo -e "${GREEN}Remediated:${NC} Ensure TCP SYN Cookies is enabled"
+    success=$((success + 1))
+else
+    echo -e "${RED}UnableToRemediate:${NC} Ensure TCP SYN Cookies is enabled"
+    fail=$((fail + 1))
+fi
+
+
 
 # 4.2.1.3 Ensure rsyslog default file permissions configured
 echo
