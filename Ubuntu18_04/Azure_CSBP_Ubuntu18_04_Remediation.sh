@@ -415,8 +415,8 @@ fi
 
 # 5.2.7 Ensure SSH HostbasedAuthentication is disabled
 echo
-echo -e "${RED}5.2.7${NC} Ensure SSH HostbasedAuthentication is disabled"
-egrep -q "^(\s*)HostbasedAuthentication\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed -ri "s/^(\s*)HostbasedAuthentication\s+\S+(\s*#.*)?\s*$/\1HostbasedAuthentication no\2/" /etc/ssh/sshd_config || echo "HostbasedAuthentication no" >> /etc/ssh/sshd_config
+echo -e "${RED}5.2.7${NC} Ensure SSH HostbasedAuthentication is enabled"
+egrep -q "^(\s*)HostbasedAuthentication\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed -ri "s/^(\s*)HostbasedAuthentication\s+\S+(\s*#.*)?\s*$/\1HostbasedAuthentication yes\2/" /etc/ssh/sshd_config || echo "HostbasedAuthentication yes" >> /etc/ssh/sshd_config
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
     echo -e "${GREEN}Remediated:${NC} Ensure SSH HostbasedAuthentication is disabled"
