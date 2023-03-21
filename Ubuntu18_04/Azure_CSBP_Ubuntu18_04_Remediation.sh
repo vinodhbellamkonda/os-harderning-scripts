@@ -263,6 +263,49 @@ else
     fail=$((fail + 1))
 fi
 
+#Ensure TCP SYN Cookies is enabled
+echo
+echo -e "${RED}3.2.8${NC} Ensure TCP SYN Cookies is enabled"
+egrep -q "^(\s*)net.ipv4.tcp_syncookies\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.tcp_syncookies\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.tcp_syncookies = 1\2/" /etc/sysctl.conf || echo "net.ipv4.tcp_syncookies = 1" >> /etc/sysctl.conf
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+    echo -e "${GREEN}Remediated:${NC} Ensure TCP SYN Cookies is enabled"
+    success=$((success + 1))
+else
+    echo -e "${RED}UnableToRemediate:${NC} Ensure TCP SYN Cookies is enabled"
+    fail=$((fail + 1))
+fi
+
+##Category 3.5 Network Configuration - Uncommon Network Protocols
+echo
+echo -e "${BLUE}3.5 Network Configuration - Uncommon Network Protocols${NC}"
+
+# 3.5.3 Ensure RDS is disabled
+echo
+echo -e "${RED}3.5.3${NC} Ensure RDS is disabled"
+modprobe -n -v rds | grep "^install /bin/true$" || echo "install rds /bin/true" >> /etc/modprobe.d/rds.conf
+lsmod | egrep "^rds\s" && rmmod rds
+echo -e "${GREEN}Remediated:${NC} Ensure RDS is disabled"
+success=$((success + 1))
+
+##Category 4.2 Logging and Auditing - Configure rsyslog
+echo
+echo -e "${BLUE}4.2 Logging and Auditing - Configure rsyslog${NC}"
+
+# 4.2.1.1 Ensure rsyslog Service is enabled
+echo
+echo -e "${RED}4.2.1.1${NC} Ensure rsyslog Service is enabled"
+systemctl enable rsyslog
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+    echo -e "${GREEN}Remediated:${NC} Ensure rsyslog Service is enabled"
+    success=$((success + 1))
+else
+    echo -e "${RED}UnableToRemediate:${NC} Ensure rsyslog Service is enabled"
+    fail=$((fail + 1))
+fi
+
+
 
 
 # 4.2.1.3 Ensure rsyslog default file permissions configured
