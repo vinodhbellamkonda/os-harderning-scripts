@@ -288,23 +288,6 @@ lsmod | egrep "^rds\s" && rmmod rds
 echo -e "${GREEN}Remediated:${NC} Ensure RDS is disabled"
 success=$((success + 1))
 
-##Category 4.2 Logging and Auditing - Configure rsyslog
-echo
-echo -e "${BLUE}4.2 Logging and Auditing - Configure rsyslog${NC}"
-
-# 4.2.1.1 Ensure rsyslog Service is enabled
-echo
-echo -e "${RED}4.2.1.1${NC} Ensure rsyslog Service is enabled"
-systemctl enable rsyslog
-policystatus=$?
-if [[ "$policystatus" -eq 0 ]]; then
-    echo -e "${GREEN}Remediated:${NC} Ensure rsyslog Service is enabled"
-    success=$((success + 1))
-else
-    echo -e "${RED}UnableToRemediate:${NC} Ensure rsyslog Service is enabled"
-    fail=$((fail + 1))
-fi
-
 
 
 
