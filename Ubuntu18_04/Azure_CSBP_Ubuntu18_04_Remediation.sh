@@ -49,17 +49,7 @@ else
     echo -e "${RED}UnableToRemediate:${NC} Ensure address space layout randomization (ASLR) is enabled"
     fail=$((fail + 1))
 fi
-##Category 3.2 Network Configuration - Network Parameters (Host and Router)
-echo
-echo -e "${BLUE}3.2 Network Configuration - Network Parameters (Host and Router)${NC}"
 
-#Ensure source routed packets are not accepted
-echo
-echo -e "${RED}3.2.1${NC} Ensure source routed packets are not accepted"
-egrep -q "^(\s*)net.ipv4.conf.all.accept_source_route\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.all.accept_source_route\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.all.accept_source_route = 0\2/" /etc/sysctl.conf || echo "net.ipv4.conf.all.accept_source_route = 0" >> /etc/sysctl.conf
-egrep -q "^(\s*)net.ipv4.conf.default.accept_source_route\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.default.accept_source_route\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.default.accept_source_route = 0\2/" /etc/sysctl.conf || echo "net.ipv4.conf.default.accept_source_route = 0" >> /etc/sysctl.conf
-echo -e "${GREEN}Remediated:${NC} Ensure source routed packets are not accepted"
-success=$((success + 1)
 
 
 ##Category 2.1 Services - inetd Services
@@ -227,6 +217,18 @@ sysctl -w net.ipv4.route.flush=1
 echo -e "${GREEN}Remediated:${NC} Ensure IP forwarding is disabled"
 success=$((success + 1))
 
+##Category 3.2 Network Configuration - Network Parameters (Host and Router)
+echo
+echo -e "${BLUE}3.2 Network Configuration - Network Parameters (Host and Router)${NC}"
+
+#Ensure source routed packets are not accepted
+echo
+echo -e "${RED}3.2.1${NC} Ensure source routed packets are not accepted"
+egrep -q "^(\s*)net.ipv4.conf.all.accept_source_route\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.all.accept_source_route\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.all.accept_source_route = 0\2/" /etc/sysctl.conf || echo "net.ipv4.conf.all.accept_source_route = 0" >> /etc/sysctl.conf
+egrep -q "^(\s*)net.ipv4.conf.default.accept_source_route\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.default.accept_source_route\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.default.accept_source_route = 0\2/" /etc/sysctl.conf || echo "net.ipv4.conf.default.accept_source_route = 0" >> /etc/sysctl.conf
+echo -e "${GREEN}Remediated:${NC} Ensure source routed packets are not accepted"
+success=$((success + 1))
+
 
 # 4.2.1.3 Ensure rsyslog default file permissions configured
 echo
@@ -312,6 +314,8 @@ else
     echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/group are configured"
     fail=$((fail + 1))
 fi
+
+
 
 
 
