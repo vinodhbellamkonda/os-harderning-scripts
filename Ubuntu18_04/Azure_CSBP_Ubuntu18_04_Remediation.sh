@@ -242,26 +242,6 @@ else
     fail=$((fail + 1))
 fi
 
-#Ensure Reverse Path Filtering is enabled
-echo
-echo -e "${RED}3.2.7${NC} Ensure Reverse Path Filtering is enabled"
-egrep -q "^(\s*)net.ipv4.conf.all.rp_filter\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.all.rp_filter\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.all.rp_filter = 1\2/" /etc/sysctl.conf || echo "net.ipv4.conf.all.rp_filter = 1" >> /etc/sysctl.conf
-egrep -q "^(\s*)net.ipv4.conf.default.rp_filter\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.default.rp_filter\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.default.rp_filter = 1\2/" /etc/sysctl.conf || echo "net.ipv4.conf.default.rp_filter = 1" >> /etc/sysctl.conf
-echo -e "${GREEN}Remediated:${NC} Ensure Reverse Path Filtering is enabled"
-success=$((success + 1))
-
-
-##Category 3.5 Network Configuration - Uncommon Network Protocols
-echo
-echo -e "${BLUE}3.5 Network Configuration - Uncommon Network Protocols${NC}"
-
-# 3.5.3 Ensure RDS is disabled
-echo
-echo -e "${RED}3.5.3${NC} Ensure RDS is disabled"
-modprobe -n -v rds | grep "^install /bin/true$" || echo "install rds /bin/true" >> /etc/modprobe.d/rds.conf
-lsmod | egrep "^rds\s" && rmmod rds
-echo -e "${GREEN}Remediated:${NC} Ensure RDS is disabled"
-success=$((success + 1))
 
 
 
