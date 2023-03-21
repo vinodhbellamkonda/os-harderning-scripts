@@ -264,22 +264,7 @@ grep "$InputTCPServerRun 514" /etc/rsyslog.conf || echo "$""InputTCPServerRun 51
 echo -e "${GREEN}Remediated:${NC} Ensure remote rsyslog messages are only accepted on designated log hosts"
 success=$((success + 1))
 
-##Category 4.2 Logging and Auditing - Configure Logging
-echo
-echo -e "${BLUE}4.2 Logging and Auditing - Configure Logging${NC}"
 
-#Ensure rsyslog or syslog-ng is installed
-echo
-echo -e "${RED}4.2.3${NC} Ensure rsyslog or syslog-ng is installed"
-apt-get install rsyslog || apt-get install syslog-ng
-policystatus=$?
-if [[ "$policystatus" -eq 0 ]]; then
-    echo -e "${GREEN}Remediated:${NC} Ensure rsyslog or syslog-ng is installed"
-    success=$((success + 1))
-else
-    echo -e "${RED}UnableToRemediate:${NC} Ensure rsyslog or syslog-ng is installed"
-    fail=$((fail + 1))
-fi
 
 ##Category 5.1 Access, Authentication and Authorization - Configure cron
 echo
