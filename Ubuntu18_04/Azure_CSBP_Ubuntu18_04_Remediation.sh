@@ -413,18 +413,7 @@ else
     fail=$((fail + 1))
 fi
 
-# 5.2.7 Ensure SSH HostbasedAuthentication is disabled
-echo
-echo -e "${RED}5.2.7${NC} Ensure SSH HostbasedAuthentication is enabled"
-egrep -q "^(\s*)HostbasedAuthentication\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed -ri "s/^(\s*)HostbasedAuthentication\s+\S+(\s*#.*)?\s*$/\1HostbasedAuthentication yes\2/" /etc/ssh/sshd_config || echo "HostbasedAuthentication yes" >> /etc/ssh/sshd_config
-policystatus=$?
-if [[ "$policystatus" -eq 0 ]]; then
-    echo -e "${GREEN}Remediated:${NC} Ensure SSH HostbasedAuthentication is disabled"
-    success=$((success + 1))
-else
-    echo -e "${RED}UnableToRemediate:${NC} Ensure SSH HostbasedAuthentication is disabled"
-    fail=$((fail + 1))
-fi
+
 
 # 5.2.9 Ensure SSH PermitEmptyPasswords is disabled
 echo
