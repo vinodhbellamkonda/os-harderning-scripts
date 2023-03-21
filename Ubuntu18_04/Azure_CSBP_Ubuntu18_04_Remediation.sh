@@ -229,6 +229,19 @@ egrep -q "^(\s*)net.ipv4.conf.default.accept_source_route\s*=\s*\S+(\s*#.*)?\s*$
 echo -e "${GREEN}Remediated:${NC} Ensure source routed packets are not accepted"
 success=$((success + 1))
 
+#Ensure broadcast ICMP requests are ignored
+echo
+echo -e "${RED}3.2.5${NC} Ensure broadcast ICMP requests are ignored"
+egrep -q "^(\s*)net.ipv4.icmp_echo_ignore_broadcasts\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.icmp_echo_ignore_broadcasts\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.icmp_echo_ignore_broadcasts = 1\2/" /etc/sysctl.conf || echo "net.ipv4.icmp_echo_ignore_broadcasts = 1" >> /etc/sysctl.conf
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+    echo -e "${GREEN}Remediated:${NC} Ensure broadcast ICMP requests are ignored"
+    success=$((success + 1))
+else
+    echo -e "${RED}UnableToRemediate:${NC} Ensure broadcast ICMP requests are ignored"
+    fail=$((fail + 1))
+fi
+
 
 # 4.2.1.3 Ensure rsyslog default file permissions configured
 echo
