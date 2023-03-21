@@ -208,14 +208,7 @@ fi
 echo
 echo -e "${BLUE}3.1 Network Configuration - Network Parameters (Host Only)${NC}"
 
-# 3.1.1 Ensure IP forwarding is disabled
-echo
-echo -e "${RED}3.1.1${NC} Ensure IP forwarding is disabled"
-egrep -q "^(\s*)net.ipv4.ip_forward\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.ip_forward\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.ip_forward = 0\2/" /etc/sysctl.conf || echo "net.ipv4.ip_forward = 0" >> /etc/sysctl.conf
-sysctl -w net.ipv4.ip_forward=0
-sysctl -w net.ipv4.route.flush=1
-echo -e "${GREEN}Remediated:${NC} Ensure IP forwarding is disabled"
-success=$((success + 1))
+
 
 ##Category 3.2 Network Configuration - Network Parameters (Host and Router)
 echo
@@ -250,7 +243,15 @@ grep "$FileCreateMode 0640" /etc/rsyslog.d/*.conf || echo "$""FileCreateMode 064
 echo -e "${GREEN}Remediated:${NC} Ensure rsyslog default file permissions configured"
 success=$((success + 1))
 
-
+# 4.2.1.5 Ensure remote rsyslog messages are only accepted on designated log hosts
+echo
+echo -e "${RED}4.2.1.5${NC} Ensure remote rsyslog messages are only accepted on designated log hosts"
+sed -i -e 's/#$ModLoad imtcp.so/$ModLoad imtcp.so/g' /etc/rsyslog.conf
+grep "$ModLoad imtcp.so" /etc/rsyslog.conf || echo "$""ModLoad imtcp.so" >> /etc/rsyslog.conf
+sed -i -e 's/#$InputTCPServerRun 514/$InputTCPServerRun 514/g' /etc/rsyslog.conf
+grep "$InputTCPServerRun 514" /etc/rsyslog.conf || echo "$""InputTCPServerRun 514" >> /etc/rsyslog.conf
+echo -e "${GREEN}Remediated:${NC} Ensure remote rsyslog messages are only accepted on designated log hosts"
+success=$((success + 1))
 
 
 
