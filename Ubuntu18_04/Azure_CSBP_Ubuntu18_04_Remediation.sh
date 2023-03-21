@@ -242,18 +242,18 @@ else
     fail=$((fail + 1))
 fi
 
-
-
-
-# 4.2.1.5 Ensure remote rsyslog messages are only accepted on designated log hosts
+# 4.2.1.3 Ensure rsyslog default file permissions configured
 echo
-echo -e "${RED}4.2.1.5${NC} Ensure remote rsyslog messages are only accepted on designated log hosts"
-sed -i -e 's/#$ModLoad imtcp.so/$ModLoad imtcp.so/g' /etc/rsyslog.conf
-grep "$ModLoad imtcp.so" /etc/rsyslog.conf || echo "$""ModLoad imtcp.so" >> /etc/rsyslog.conf
-sed -i -e 's/#$InputTCPServerRun 514/$InputTCPServerRun 514/g' /etc/rsyslog.conf
-grep "$InputTCPServerRun 514" /etc/rsyslog.conf || echo "$""InputTCPServerRun 514" >> /etc/rsyslog.conf
-echo -e "${GREEN}Remediated:${NC} Ensure remote rsyslog messages are only accepted on designated log hosts"
+echo -e "${RED}4.2.1.3${NC} Ensure rsyslog default file permissions configured"
+grep "$FileCreateMode 0640" /etc/rsyslog.conf || echo "$""FileCreateMode 0640" >> /etc/rsyslog.conf
+grep "$FileCreateMode 0640" /etc/rsyslog.d/*.conf || echo "$""FileCreateMode 0640" >> /etc/rsyslog.d/*.conf
+echo -e "${GREEN}Remediated:${NC} Ensure rsyslog default file permissions configured"
 success=$((success + 1))
+
+
+
+
+
 
 
 
