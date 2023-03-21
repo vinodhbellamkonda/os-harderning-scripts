@@ -204,18 +204,6 @@ else
     fail=$((fail + 1))
 fi
 
-# 2.3.2 Ensure rsh client is not installed
-echo
-echo -e "${RED}2.3.2${NC} Ensure rsh client is not installed"
-apt-get remove rsh-client rsh-redone-client
-policystatus=$?
-if [[ "$policystatus" -eq 0 ]]; then
-    echo -e "${GREEN}Remediated:${NC} Ensure rsh client is not installed"
-    success=$((success + 1))
-else
-    echo -e "${RED}UnableToRemediate:${NC} Ensure rsh client is not installed"
-    fail=$((fail + 1))
-fi
 
 # 2.3.4 Ensure telnet client is not installed
 echo
