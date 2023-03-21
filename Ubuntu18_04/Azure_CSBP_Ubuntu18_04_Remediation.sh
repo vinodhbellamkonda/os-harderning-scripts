@@ -356,48 +356,7 @@ else
 fi
 
 ##Category 5.2 Access, Authentication and Authorization - SSH Server Configuration
-echo
-echo -e "${BLUE}5.2 Access, Authentication and Authorization - SSH Server Configuration${NC}"
 
-# 5.2.2 Ensure SSH Protocol is set to 2
-echo
-echo -e "${RED}5.2.2${NC} Ensure SSH Protocol is set to 2"
-egrep -q "^(\s*)Protocol\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed -ri "s/^(\s*)Protocol\s+\S+(\s*#.*)?\s*$/\1Protocol 2\2/" /etc/ssh/sshd_config || echo "Protocol 2" >> /etc/ssh/sshd_config
-policystatus=$?
-if [[ "$policystatus" -eq 0 ]]; then
-    echo -e "${GREEN}Remediated:${NC} Ensure SSH Protocol is set to 2"
-    success=$((success + 1))
-else
-    echo -e "${RED}UnableToRemediate:${NC} Ensure SSH Protocol is set to 2"
-    fail=$((fail + 1))
-fi
-
-
-# 5.2.9 Ensure SSH PermitEmptyPasswords is disabled
-echo
-echo -e "${RED}5.2.9${NC} Ensure SSH PermitEmptyPasswords is disabled"
-egrep -q "^(\s*)PermitEmptyPasswords\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed -ri "s/^(\s*)PermitEmptyPasswords\s+\S+(\s*#.*)?\s*$/\1PermitEmptyPasswords no\2/" /etc/ssh/sshd_config || echo "PermitEmptyPasswords no" >> /etc/ssh/sshd_config
-policystatus=$?
-if [[ "$policystatus" -eq 0 ]]; then
-    echo -e "${GREEN}Remediated:${NC} Ensure SSH PermitEmptyPasswords is disabled"
-    success=$((success + 1))
-else
-    echo -e "${RED}UnableToRemediate:${NC} Ensure SSH PermitEmptyPasswords is disabled"
-    fail=$((fail + 1))
-fi
-
-# 5.2.10 Ensure SSH PermitEmptyPasswords is disabled
-echo
-echo -e "${RED}5.2.10${NC} Ensure SSH PermitUserEnvironment is disabled"
-egrep -q "^(\s*)PermitUserEnvironment\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed -ri "s/^(\s*)PermitUserEnvironment\s+\S+(\s*#.*)?\s*$/\1PermitUserEnvironment no\2/" /etc/ssh/sshd_config || echo "PermitUserEnvironment no" >> /etc/ssh/sshd_config
-policystatus=$?
-if [[ "$policystatus" -eq 0 ]]; then
-    echo -e "${GREEN}Remediated:${NC} Ensure SSH PermitUserEnvironment is disabled"
-    success=$((success + 1))
-else
-    echo -e "${RED}UnableToRemediate:${NC} Ensure SSH PermitUserEnvironment is disabled"
-    fail=$((fail + 1))
-fi
 
 ##Category 6.1 System Maintenance - System File Permissions
 echo
