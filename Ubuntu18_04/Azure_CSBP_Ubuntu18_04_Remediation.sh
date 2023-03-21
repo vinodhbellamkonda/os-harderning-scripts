@@ -67,23 +67,7 @@ else
     fail=$((fail + 1))
 fi
 
-# 2.1.6 Ensure rsh server is not enabled
-echo
-echo -e "${RED}2.1.6${NC} Ensure rsh server is not enabled"
-sed -i -e 's/shell/#shell/g' /etc/inetd.conf
-grep "shell" /etc/inetd.conf || echo "shell" >> /etc/inetd.conf
-sed -i -e 's/shell/#shell/g' /etc/inetd.d/*
-grep "shell" /etc/inetd.d/* || echo "shell" >> /etc/inetd.d/*
-sed -i -e 's/login/#login/g' /etc/rsyslog.conf
-grep "login" /etc/inetd.conf || echo "login" >> /etc/inetd.conf
-sed -i -e 's/login/#login/g' /etc/inetd.d/*
-grep "login" /etc/inetd.d/* || echo "login" >> /etc/inetd.d/*
-sed -i -e 's/exec/#exec/g' /etc/rsyslog.conf
-grep "exec" /etc/inetd.conf || echo "exec" >> /etc/inetd.conf
-sed -i -e 's/exec/#exec/g' /etc/inetd.d/*
-grep "exec" /etc/inetd.d/* || echo "exec" >> /etc/inetd.d/*
-echo -e "${GREEN}Remediated:${NC} Ensure rsh server is not enabled"
-success=$((success + 1))
+
 
 # 2.1.8 Ensure telnet server is not enabled
 echo
