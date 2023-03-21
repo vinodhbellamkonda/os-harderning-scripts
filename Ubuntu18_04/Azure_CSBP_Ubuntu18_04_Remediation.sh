@@ -208,6 +208,16 @@ fi
 echo
 echo -e "${BLUE}3.1 Network Configuration - Network Parameters (Host Only)${NC}"
 
+# 3.1.1 Ensure IP forwarding is disabled
+echo
+echo -e "${RED}3.1.1${NC} Ensure IP forwarding is disabled"
+egrep -q "^(\s*)net.ipv4.ip_forward\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.ip_forward\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.ip_forward = 0\2/" /etc/sysctl.conf || echo "net.ipv4.ip_forward = 0" >> /etc/sysctl.conf
+sysctl -w net.ipv4.ip_forward=0
+sysctl -w net.ipv4.route.flush=1
+echo -e "${GREEN}Remediated:${NC} Ensure IP forwarding is disabled"
+success=$((success + 1))
+
+
 
 
 ##Category 3.2 Network Configuration - Network Parameters (Host and Router)
