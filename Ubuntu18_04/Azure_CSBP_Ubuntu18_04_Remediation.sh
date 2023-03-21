@@ -245,14 +245,6 @@ fi
 
 
 
-# 4.2.1.3 Ensure rsyslog default file permissions configured
-echo
-echo -e "${RED}4.2.1.3${NC} Ensure rsyslog default file permissions configured"
-grep "$FileCreateMode 0640" /etc/rsyslog.conf || echo "$""FileCreateMode 0640" >> /etc/rsyslog.conf
-grep "$FileCreateMode 0640" /etc/rsyslog.d/*.conf || echo "$""FileCreateMode 0640" >> /etc/rsyslog.d/*.conf
-echo -e "${GREEN}Remediated:${NC} Ensure rsyslog default file permissions configured"
-success=$((success + 1))
-
 # 4.2.1.5 Ensure remote rsyslog messages are only accepted on designated log hosts
 echo
 echo -e "${RED}4.2.1.5${NC} Ensure remote rsyslog messages are only accepted on designated log hosts"
